@@ -1,10 +1,12 @@
 package com.it.ticket.model.Statuses;
 
+import java.util.UUID;
+
 import lombok.Data;
 
 @Data
 public class StatusInfo {
-    private String id;
+    private UUID id;
     private String name;
     private String code;
     private String statusType;
