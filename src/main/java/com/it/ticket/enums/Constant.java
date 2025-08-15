@@ -25,4 +25,10 @@ public class Constant {
         }
     }
 
+    public static final String TICKET_EVENT_REQUEST = "ticket-event-request";
+    public static final String TICKET_EVENT_RESPONSE = "ticket-event-response";
+    public static final String EVENT_GROUP = "helpdesk-gateway";
+    public static final String OPERATION_CREATE_TICKET = "create-ticket"; 
+ 
+
 }
