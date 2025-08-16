@@ -15,14 +15,27 @@ import lombok.extern.slf4j.Slf4j;
 public class KafkaGeneralHandler {
 
     private final KafkaHandlerCategory kafkaHandlerCategory;
-
+    private final KafkaHandlerPriority kafkaHandlerPriority;
+    private final KafkaHandlerStatus kafkaHandlerStatus;
+    private final KafkaGeneral kafkaGeneral;
+    
     @KafkaListener(topics = Constant.TICKET_EVENT_REQUEST, groupId = Constant.EVENT_GROUP)
     public void listenCategoryEvent(KafkaMessage message) {
         try {
-            if (Constant.OPERATION_GET_ALL_CATEGORIES.equals(message.getOperationType())) {
-                kafkaHandlerCategory.handleCategoryEvent(message);
-            } else {
-                log.warn("Unsupported operation type: {}", message.getOperationType());
+            switch (message.getOperationType()) {
+                case Constant.OPERATION_GET_ALL_CATEGORIES:
+                    kafkaHandlerCategory.handleCategoryEvent(message);
+                    break;
+                case Constant.OPERATION_GET_ALL_PRIORITIES:
+                    kafkaHandlerPriority.handlePriorityEvent(message);
+                    break;
+                case Constant.OPERATION_GET_ALL_STATUSES:
+                    kafkaHandlerStatus.handleStatusEvent(message);
+                    break;
+                default:
+                    log.warn("Unsupported operation type: {}", message.getOperationType());
+                    kafkaGeneral.sendErrorResponse(message.getMessageId(), message.getOperationType(), "Unsupported operation type");
+                    break;
             }
         } catch (Exception e) {
             log.error("Error processing category event for message ID: {}", message.getMessageId(), e);
