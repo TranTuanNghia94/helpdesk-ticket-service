@@ -33,4 +33,19 @@ public class TicketsService {
             throw new RuntimeException("Error creating ticket", e);
         }
     }
+
+    public String getTicket(String ticketNumber) {
+        try {
+            log.info("Start getting ticket: {}", ticketNumber);
+
+            TicketsEntity ticket = ticketRepo.findByTicketNumber(ticketNumber);
+
+            log.info("Ticket found: {}", ticket);
+
+            return ticket.getTicketNumber();
+        } catch (Exception e) {
+            log.error("Error getting ticket: {}", e.getMessage());
+            throw new RuntimeException("Error getting ticket", e);
+        }
+    }
 }
