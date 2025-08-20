@@ -34,15 +34,20 @@ public class TicketsService {
         }
     }
 
-    public String getTicket(String ticketNumber) {
+    public TicketsEntity getTicket(String ticketNumber) {
         try {
             log.info("Start getting ticket: {}", ticketNumber);
 
             TicketsEntity ticket = ticketRepo.findByTicketNumber(ticketNumber);
 
+            if (ticket == null) {
+                log.error("Ticket not found: {}", ticketNumber);
+                throw new RuntimeException("Ticket not found");
+            }
+
             log.info("Ticket found: {}", ticket);
 
-            return ticket.getTicketNumber();
+            return ticket;
         } catch (Exception e) {
             log.error("Error getting ticket: {}", e.getMessage());
             throw new RuntimeException("Error getting ticket", e);

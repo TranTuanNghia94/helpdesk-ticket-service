@@ -1,7 +1,5 @@
 package com.it.ticket.mapper;
 
-import java.time.Instant;
-
 import org.springframework.stereotype.Component;
 
 import com.it.ticket.entity.TicketsEntity;

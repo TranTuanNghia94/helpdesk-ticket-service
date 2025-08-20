@@ -10,4 +10,6 @@ import com.it.ticket.entity.TicketsEntity;
 @Repository
 public interface TicketRepository extends JpaRepository<TicketsEntity, UUID> {
 
+    TicketsEntity findByTicketNumber(String ticketNumber);
+
 }
