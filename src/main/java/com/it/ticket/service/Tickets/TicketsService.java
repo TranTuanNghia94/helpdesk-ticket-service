@@ -1,5 +1,7 @@
 package com.it.ticket.service.Tickets;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 
 import com.it.ticket.entity.TicketsEntity;
@@ -51,6 +53,27 @@ public class TicketsService {
         } catch (Exception e) {
             log.error("Error getting ticket: {}", e.getMessage());
             throw new RuntimeException("Error getting ticket", e);
+        }
+    }
+
+    public void closeTicket(String ticketNumber, UUID statusId) {
+        try {
+            log.info("Start closing ticket: {}", ticketNumber);
+
+            TicketsEntity ticket = ticketRepo.findByTicketNumber(ticketNumber);
+
+            if (ticket == null) {
+                log.error("Ticket not found: {}", ticketNumber);
+                throw new RuntimeException("Ticket not found");
+            }
+            
+            ticket.setStatusId(statusId);
+            ticketRepo.save(ticket);
+
+            log.info("Ticket closed successfully: {}", ticketNumber);
+        } catch (Exception e) {
+            log.error("Error closing ticket: {}", e.getMessage());
+            throw new RuntimeException("Error closing ticket", e);
         }
     }
 }
